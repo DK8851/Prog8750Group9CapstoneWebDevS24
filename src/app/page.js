@@ -1,7 +1,12 @@
-export default function Home() {
+import Header from "@/components/Header";
+
+export default function HomePage() {
+
+  const currUser = null;
+  const priceLink = '/pricing';
   return (
-    <main>
-      Hello RapidAid
-    </main>
+    <div>
+      <Header currUser={currUser} priceLink={priceLink} />
+    </div>
   );
 }
