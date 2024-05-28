@@ -1,9 +1,12 @@
-import { Inter } from "next/font/google";
+import { Montserrat } from "next/font/google";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+// modify color schema
+import "/styles/scss/global.scss";
+import "/styles/css/globals.css";
+
+const Montserrat_ds = Montserrat({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Rapid Aid",
@@ -13,7 +16,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={Montserrat_ds.className}>{children}</body>
     </html>
   );
 }
