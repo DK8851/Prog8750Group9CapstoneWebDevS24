@@ -1,12 +1,17 @@
 'use client'
 
+import { Fugaz_One } from "next/font/google";
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+
+const Fugaz_One_md = Fugaz_One({
+    weight: '400',
+    subsets: ['latin'],
+});
 
 
 const Header = ({ currUser, priceLink, logoutCurrUser }) => {
@@ -22,9 +27,9 @@ const Header = ({ currUser, priceLink, logoutCurrUser }) => {
     }, []);
 
     return (
-        <Navbar expand="lg" className="bg-body-tertiary">
+        <Navbar expand="lg" bg="dark" data-bs-theme="dark">
             <Container>
-                <Navbar.Brand as={Link} href="/">
+                <Navbar.Brand as={Link} href="/" className={Fugaz_One_md.className}>
                     RapidAid
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
