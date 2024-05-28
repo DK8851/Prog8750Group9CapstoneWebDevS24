@@ -49,3 +49,28 @@ a {
 .footer-li:hover {
   color: #ffffff;
 }
+
+/* Text Change */
+.hero-header {
+  font-size: 5rem;
+  font-weight: bold;
+}
+
+.hero-subheader {
+  font-size: 1.5rem;
+}
+
+.navbar-brand {
+  font-size: 2rem;
+}
+
+/* mobile view */
+@media only screen and (max-width: 600px) {
+  .hero-header {
+    font-size: 3rem;
+  }
+
+  .hero-subheader {
+    font-size: 1.2rem;
+  }
+}

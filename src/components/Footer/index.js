@@ -17,7 +17,7 @@ const Footer = () => {
     }, []);
 
     return (
-        <div className="position-fixed bottom-0 w-100">
+        <div className="w-100">
             <Container fluid className="bg-dark text-white py-4">
                 <p className="text-center">
                     <label className="py-2">

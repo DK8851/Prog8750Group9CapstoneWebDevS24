@@ -27,7 +27,7 @@ const Header = ({ currUser, priceLink, logoutCurrUser }) => {
     }, []);
 
     return (
-        <Navbar expand="lg" bg="dark" data-bs-theme="dark">
+        <Navbar expand="lg" bg="dark" data-bs-theme="dark" className="py-2 py-sm-4">
             <Container>
                 <Navbar.Brand as={Link} href="/" className={Fugaz_One_md.className}>
                     RapidAid
