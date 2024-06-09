@@ -5,10 +5,20 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import BG from '@/components/Bg';
+// import db from '@/utils/firebase/firestore'
+// import { collection, addDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import firebase_app from '@/utils/firebase/firebase';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
+
+const auth = getAuth(firebase_app);
+
 
 const RegisterPage = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', password: '', confirmPassword: '', role: 'User' });
-  const [errors, setErrors] = useState({ name: '', email: '', password: '', confirmPassword: '', role: '' });
+  const router = useRouter()
+  const [formData, setFormData] = useState({ email: '', password: '', confirmPassword: '', role: 'User' });
+  const [errors, setErrors] = useState({ email: '', password: '', confirmPassword: '', role: '' });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -16,13 +26,10 @@ const RegisterPage = () => {
     setErrors({ ...errors, [name]: '' }); // Resetting error message on change
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     let newErrors = {};
-    if (!formData.name) {
-      newErrors.name = 'Name is required';
-    }
 
     if (!formData.email) {
       newErrors.email = 'Email is required';
@@ -49,8 +56,56 @@ const RegisterPage = () => {
       return;
     }
 
-    // Call your API with formData
-    console.log('Form data:', formData);
+    await registerUser();
+  };
+
+  const registerUser = async () => {
+    const { email, password, role } = formData;
+    const registerUserloading = toast.loading("Please wait...")
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      const userInfo = {
+        info: user?.reloadUserInfo,
+        token: user?.accessToken
+      };
+
+      console.log("userCredential ::: ", userInfo);
+
+      const uid = user.uid;
+
+      await setUserRole(uid, role);
+      toast.update(registerUserloading, { render: "Register Successfully", type: "success", isLoading: false, autoClose: true });
+      router.push('/');
+
+
+    } catch (error) {
+      console.error(error);
+      if (error.message.includes("auth/email-already-in-use")) {
+        setErrors((prev) => ({ ...prev, email: "Email is already in use" }));
+      }
+
+      toast.update(registerUserloading, { render: "Please solve the below error!", type: "warning", isLoading: false, autoClose: true });
+    }
+  };
+
+  const setUserRole = async (uid, role) => {
+    try {
+      const response = await fetch('/api/auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ uid, role }),
+      });
+
+      await response.json();
+
+    } catch (error) {
+      console.error('Error setting user role:', error);
+      throw new Error('Failed to set user role');
+    }
   };
 
   return (
@@ -61,22 +116,6 @@ const RegisterPage = () => {
           Register
         </h2>
         <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3" controlId="formBasicName">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              className='rounded-pill'
-              type="text"
-              placeholder="Enter name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              isInvalid={!!errors.name}
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors.name}
-            </Form.Control.Feedback>
-          </Form.Group>
-
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control

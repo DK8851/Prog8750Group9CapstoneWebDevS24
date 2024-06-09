@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
 
   return (
     <div>
-      <Header key={pathname} currActivePath={pathname} priceLink="/pricing" />
+      <Header key={pathname} currActivePath={pathname} />
       <main>
         {children}
       </main>
