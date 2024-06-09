@@ -1,10 +1,10 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
 
-const RoundButton = ({ text, variant = "primary", textColor = "text-white", newclass = "" }) => {
+const RoundButton = ({ text, variant = "primary", textColor = "text-white", newclass = "", size = "lg" }) => {
     let allclass = `rounded-pill ${textColor} ` + newclass
     return (
-        <Button variant={variant} size="lg" className={`${allclass}`} >
+        <Button type='submit' variant={variant} size={size} className={`${allclass}`} >
             {text}
         </Button>
     )
