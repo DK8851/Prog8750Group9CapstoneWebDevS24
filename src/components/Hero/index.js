@@ -5,7 +5,7 @@ import RoundButton from '../RoundButton'
 const Hero = () => {
     return (
         <div className="vh-100 bg-image d-flex justify-content-center align-items-center">
-            <div class="overlay"></div>
+            <div className="overlay"></div>
             <div className="text-content text-center text-white">
                 <h1 className='hero-header'>
                     <span className='text-primary'>
