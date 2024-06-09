@@ -4,7 +4,7 @@ import RoundButton from '@/components/RoundButton';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
-import "./style.css";
+import BG from '@/components/Bg';
 
 const LoginPage = () => {
     const [formData, setFormData] = useState({ email: '', password: '' });
@@ -23,6 +23,7 @@ const LoginPage = () => {
         if (!formData.email) {
             newErrors.email = 'Email is required';
         }
+
         if (!formData.password) {
             newErrors.password = 'Password is required';
         }
@@ -38,8 +39,7 @@ const LoginPage = () => {
 
     return (
         <div>
-            <div className="bg">
-            </div>
+            <BG />
             <div className='container py-4'>
                 <h2 className='text-center fw-bolder'>
                     Login

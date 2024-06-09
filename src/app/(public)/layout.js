@@ -15,11 +15,11 @@ export default function RootLayout({ children }) {
 
   return (
     <div>
-      <Header key={pathname} priceLink="/pricing" />
+      <Header key={pathname} currActivePath={pathname} priceLink="/pricing" />
       <main>
         {children}
       </main>
-      <Footer fixed={true}/>
+      <Footer currActivePath={pathname} fixed={pathname != "/register"} />
     </div>
   );
 }

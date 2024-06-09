@@ -4,8 +4,16 @@ import { useState, useEffect } from 'react'
 import { BiChevronsRight } from "react-icons/bi";
 import Container from 'react-bootstrap/Container';
 import styles from './Footer.module.css';
+import Link from 'next/link';
 
-const Footer = ({ fixed }) => {
+const navLinks = [
+    { "path": "/home", "text": "Home" },
+    { "path": "/about", "text": "About" },
+    { "path": "/contact", "text": "Contact" },
+    { "path": "/login", "text": "Login" },
+    { "path": "/register", "text": "Register" }
+]
+const Footer = ({ fixed, currActivePath }) => {
     const [top, setTop] = useState(true);
 
     useEffect(() => {
@@ -26,30 +34,12 @@ const Footer = ({ fixed }) => {
                     </label>
                 </p>
                 <ul className="list-unstyled p-0 m-0 d-flex flex-column flex-md-row justify-content-around">
-                    <li className="footer-li">
-                        <BiChevronsRight />
-                        Home
-                    </li>
-                    <li className="footer-li">
-                        <BiChevronsRight />
-                        About Us
-                    </li>
-                    <li className="footer-li">
-                        <BiChevronsRight />
-                        Contact Us
-                    </li>
-                    <li className="footer-li">
-                        <BiChevronsRight />
-                        Our Team
-                    </li>
-                    <li className="footer-li">
-                        <BiChevronsRight />
-                        Login
-                    </li>
-                    <li className="footer-li">
-                        <BiChevronsRight />
-                        Register
-                    </li>
+                    {(navLinks || [])?.map((item, index) => (
+                        <li key={index} className="footer-li">
+                            <BiChevronsRight />
+                            <Link href={item.path} className={currActivePath === item.path ? 'active' : ''}>{item.text}</Link>
+                        </li>
+                    ))}
                 </ul>
             </Container>
             <hr className="m-0 p-0 border border-dark-subtle" />
