@@ -1,12 +1,19 @@
 "use client"
 
-import RoundButton from '@/components/RoundButton';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import BG from '@/components/Bg';
+import RoundButton from '@/components/RoundButton';
+
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import firebase_app from '@/utils/firebase/firebase';
+import { useRouter } from 'next/navigation';
+
+const auth = getAuth(firebase_app);
 
 const LoginPage = () => {
+    const router = useRouter();
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [errors, setErrors] = useState({ email: '', password: '' });
 
@@ -16,7 +23,7 @@ const LoginPage = () => {
         setErrors({ ...errors, [name]: '' }); // Resetting error message on change
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         let newErrors = {};
@@ -35,6 +42,15 @@ const LoginPage = () => {
 
         // Call your API with formData
         console.log('Form data:', formData);
+
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
+            console.log('User details:', userCredential.user);
+            router.push('/');
+        } catch (error) {
+            console.error('Error logging in:', error.message);
+            setErrors({ email: 'Invalid email or password', password: '' });
+        }
     };
 
     return (
