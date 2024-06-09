@@ -5,8 +5,6 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import BG from '@/components/Bg';
-// import db from '@/utils/firebase/firestore'
-// import { collection, addDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import firebase_app from '@/utils/firebase/firebase';
 import { toast } from 'react-toastify';
@@ -17,8 +15,8 @@ const auth = getAuth(firebase_app);
 
 const RegisterPage = () => {
   const router = useRouter()
-  const [formData, setFormData] = useState({ email: '', password: '', confirmPassword: '', role: 'User' });
-  const [errors, setErrors] = useState({ email: '', password: '', confirmPassword: '', role: '' });
+  const [formData, setFormData] = useState({ displayName: '', email: '', password: '', confirmPassword: '', role: 'User' });
+  const [errors, setErrors] = useState({ displayName: '', email: '', password: '', confirmPassword: '', role: '' });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,6 +28,10 @@ const RegisterPage = () => {
     e.preventDefault();
 
     let newErrors = {};
+
+    if (!formData.displayName) {
+      newErrors.displayName = 'Name is required';
+    }
 
     if (!formData.email) {
       newErrors.email = 'Email is required';
@@ -60,22 +62,15 @@ const RegisterPage = () => {
   };
 
   const registerUser = async () => {
-    const { email, password, role } = formData;
+    const { email, password, role, displayName } = formData;
     const registerUserloading = toast.loading("Please wait...")
 
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      const userInfo = {
-        info: user?.reloadUserInfo,
-        token: user?.accessToken
-      };
-
-      console.log("userCredential ::: ", userInfo);
 
       const uid = user.uid;
-
-      await setUserRole(uid, role);
+      await setUserInfo(uid, role, displayName);
       toast.update(registerUserloading, { render: "Register Successfully", type: "success", isLoading: false, autoClose: true });
       router.push('/');
 
@@ -90,21 +85,21 @@ const RegisterPage = () => {
     }
   };
 
-  const setUserRole = async (uid, role) => {
+  const setUserInfo = async (uid, role, displayName) => {
     try {
       const response = await fetch('/api/auth', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ uid, role }),
+        body: JSON.stringify({ uid, role, displayName }),
       });
 
       await response.json();
 
     } catch (error) {
-      console.error('Error setting user role:', error);
-      throw new Error('Failed to set user role');
+      console.error('Error setting user infotmation:', error);
+      throw new Error('Failed to set user infotmation');
     }
   };
 
@@ -116,6 +111,22 @@ const RegisterPage = () => {
           Register
         </h2>
         <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3" controlId="formBasicdisplayName">
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              className='rounded-pill'
+              type="text"
+              placeholder="Enter Your Name"
+              name="displayName"
+              value={formData.displayName}
+              onChange={handleChange}
+              isInvalid={!!errors.displayName}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.displayName}
+            </Form.Control.Feedback>
+          </Form.Group>
+
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control

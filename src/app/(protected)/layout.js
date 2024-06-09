@@ -21,7 +21,7 @@ function ProtectedLayout({ children, user }) {
       <main>
         {children}
       </main>
-      <Footer currActivePath={pathname} fixed={pathname != "/register"} />
+      <Footer currActivePath={pathname} fixed={pathname != "/profile"} />
     </div>
   );
 }

@@ -5,13 +5,14 @@ import { addDoc, collection } from 'firebase/firestore';
 
 export async function POST(req, res) {
   try {
-    const { uid, role } = await req.json();
+    const { uid, role, displayName } = await req.json();
 
     await admin.auth().setCustomUserClaims(uid, { role });
 
-    await addDoc(collection(db, "roles"), {
+    await addDoc(collection(db, "users"), {
       uid,
-      role
+      role,
+      displayName
     });
 
     return Utils.sendSuccess({ message: 'User role set successfully' });
