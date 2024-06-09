@@ -14,7 +14,7 @@ const Fugaz_One_md = Fugaz_One({
 });
 
 const navLinks = [
-    { "path": "/home", "text": "Home" },
+    { "path": "/", "text": "Home" },
     { "path": "/about", "text": "About" },
     { "path": "/contact", "text": "Contact" },
 ];

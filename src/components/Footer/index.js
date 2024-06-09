@@ -7,11 +7,9 @@ import styles from './Footer.module.css';
 import Link from 'next/link';
 
 const navLinks = [
-    { "path": "/home", "text": "Home" },
+    { "path": "/", "text": "Home" },
     { "path": "/about", "text": "About" },
     { "path": "/contact", "text": "Contact" },
-    { "path": "/login", "text": "Login" },
-    { "path": "/register", "text": "Register" }
 ]
 const Footer = ({ fixed, currActivePath }) => {
     const [top, setTop] = useState(true);
