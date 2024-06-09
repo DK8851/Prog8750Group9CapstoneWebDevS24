@@ -1,10 +1,12 @@
 import { Montserrat } from "next/font/google";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 // modify color schema
 import "/styles/scss/global.scss";
 import "/styles/css/globals.css";
+
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Montserrat_ds = Montserrat({ subsets: ["latin"] });
 
@@ -16,7 +18,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={Montserrat_ds.className}>{children}</body>
+      <body className={Montserrat_ds.className}>
+        <ToastContainer />
+        {children}
+      </body>
     </html>
   );
 }
