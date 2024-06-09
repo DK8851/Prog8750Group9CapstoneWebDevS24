@@ -2,11 +2,12 @@
 
 import { Fugaz_One } from "next/font/google";
 import Link from 'next/link';
-import { signOut } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 import firebase_app from "@/utils/firebase/firebase";
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { useRouter } from "next/navigation";
 
 const Fugaz_One_md = Fugaz_One({
     weight: '400',
@@ -20,10 +21,12 @@ const navLinks = [
 ];
 
 const Header = ({ currActivePath, currUser }) => {
+    const router = useRouter()
     const handleLogout = async () => {
         const auth = getAuth(firebase_app);
         try {
             await signOut(auth);
+            router.push('/')
         } catch (error) {
             console.error('Error logging out:', error);
         }
