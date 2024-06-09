@@ -13,8 +13,16 @@ const Fugaz_One_md = Fugaz_One({
     subsets: ['latin'],
 });
 
+const navLinks = [
+    { "path": "/home", "text": "Home" },
+    { "path": "/about", "text": "About" },
+    { "path": "/contact", "text": "Contact" },
+    { "path": "/login", "text": "Login" },
+    { "path": "/register", "text": "Register" }
+]
 
-const Header = ({ currUser, priceLink, logoutCurrUser }) => {
+
+const Header = ({ currActivePath, currUser, priceLink, logoutCurrUser }) => {
     const [top, setTop] = useState(true);
 
     useEffect(() => {
@@ -35,11 +43,9 @@ const Header = ({ currUser, priceLink, logoutCurrUser }) => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ms-auto">
-                        <Nav.Link as={Link} href="#home">Home</Nav.Link>
-                        <Nav.Link as={Link} href="#about">About</Nav.Link>
-                        <Nav.Link as={Link} href="#contact">Contact</Nav.Link>
-                        <Nav.Link as={Link} href="login">Login</Nav.Link>
-                        <Nav.Link as={Link} href="register">Register</Nav.Link>
+                        {(navLinks || [])?.map((item, index) => (
+                            <Nav.Link as={Link} href={item.path} className={currActivePath === item.path ? 'active' : ''}>{item.text}</Nav.Link>
+                        ))}
                     </Nav>
                 </Navbar.Collapse>
             </Container>
