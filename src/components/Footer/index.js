@@ -3,8 +3,9 @@
 import { useState, useEffect } from 'react'
 import { BiChevronsRight } from "react-icons/bi";
 import Container from 'react-bootstrap/Container';
+import styles from './Footer.module.css';
 
-const Footer = () => {
+const Footer = ({ fixed }) => {
     const [top, setTop] = useState(true);
 
     useEffect(() => {
@@ -17,7 +18,7 @@ const Footer = () => {
     }, []);
 
     return (
-        <div className="w-100">
+        <div className={`w-100 ${fixed ? styles.fixedFooter : ''}`}>
             <Container fluid className="bg-dark text-white py-4">
                 <p className="text-center">
                     <label className="py-2">
