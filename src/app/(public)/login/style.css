@@ -1,0 +1,9 @@
+.bg {
+    height: 200px;
+    width: 100%;
+    background-image: url('/images/bg/bg.jpeg');
+    background-size: cover; /* Ensure the image covers the entire container */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    overflow: hidden; /* Hide any overflow */
+}
