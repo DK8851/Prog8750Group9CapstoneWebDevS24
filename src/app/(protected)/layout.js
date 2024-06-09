@@ -9,7 +9,7 @@ import "/styles/css/globals.css";
 import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from '@/components/Footer';
-import withAuth from '@/components/HOC/WithAuth'
+import withAuthRedirect from '@/components/HOC/WithAuthRedirect';
 
 
 function ProtectedLayout({ children, user }) {
@@ -26,4 +26,4 @@ function ProtectedLayout({ children, user }) {
   );
 }
 
-export default withAuth(ProtectedLayout)
+export default withAuthRedirect(ProtectedLayout)
