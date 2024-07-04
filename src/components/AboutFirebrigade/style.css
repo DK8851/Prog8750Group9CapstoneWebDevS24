@@ -1,0 +1,31 @@
+li::marker {
+    color: red;
+}
+
+ul>li {
+    margin-top: 1rem;
+}
+
+.responsive-height {
+    height: 100%;
+}
+
+.box {
+    z-index: -1;
+    height: 200px;
+    width: 200px;
+    background-color: #f01313;
+    border-radius: 3%;
+    -webkit-border-radius: 3%;
+    -moz-border-radius: 3%;
+    -ms-border-radius: 3%;
+    -o-border-radius: 3%;
+    top: -40px;
+    right: 85px;
+}
+
+@media (min-width: 768px) {
+    .responsive-height {
+        height: 100vh;
+    }
+}
