@@ -1,0 +1,34 @@
+.responsive-height {
+    height: 100%;
+}
+
+.bg-img {
+    position: relative;
+    background-image: url('/images/bg/bg2.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+.bg-img::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+}
+
+.bg-img>* {
+    position: relative;
+    z-index: 2;
+}
+
+@media (min-width: 768px) {
+    .responsive-height {
+        height: 100vh;
+    }
+}

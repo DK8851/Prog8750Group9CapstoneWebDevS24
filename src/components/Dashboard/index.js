@@ -7,6 +7,7 @@ import Header from '../Header'
 import Footer from '../Footer'
 import AboutFirebrigade from '../AboutFirebrigade'
 import Services from '../Services'
+import Facts from '../Facts'
 
 const Dashboard = ({ user }) => {
     return (
@@ -15,6 +16,7 @@ const Dashboard = ({ user }) => {
             <Hero />
             <AboutFirebrigade />
             <Services />
+            <Facts />
             <Footer />
         </div>
     )
