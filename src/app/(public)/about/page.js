@@ -6,7 +6,7 @@ const AboutPage = () => {
   return (
     <div>
       <BG />
-      <RescueTeam />
+      <RescueTeam title="Our"/>
     </div>
   );
 };

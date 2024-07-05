@@ -19,16 +19,18 @@ let all_services = [
   },
 ];
 
-const RescueTeam = ({ teams }) => {
+const RescueTeam = ({ teams, title }) => {
   all_services = teams || all_services;
   return (
     <section className=" bg-light py-4 mb-3">
       <div className="container responsive-height d-flex flex-column justify-content-center">
         <label className="d-block mb-1 text-center">
-          Rescue Team are always ready to help and care
+          {title ? title : "Rescue"} Team are always ready to help and care
         </label>
         <h1 className="fw-bold text-center">
-          <span className="border-primary border-bottom border-4">Rescue</span>
+          <span className="border-primary border-bottom border-4">
+            {title ? title : "Rescue"}
+          </span>
           &nbsp;
           <span className="text-primary">Team</span>
         </h1>

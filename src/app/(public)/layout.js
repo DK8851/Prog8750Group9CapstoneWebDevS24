@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
       <main>{children}</main>
       <Footer
         currActivePath={pathname}
-        fixed={!["/about", "/register"].includes(pathname)}
+        fixed={!["/login", "/about", "/register", "/contact"].includes(pathname)}
       />
     </div>
   );
