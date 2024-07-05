@@ -4,7 +4,7 @@ import "./style.css";
 
 const AboutFirebrigade = () => {
     return (
-        <section className='container my-5 responsive-height d-flex flex-column justify-content-center'>
+        <section className='container my-2 responsive-height d-flex flex-column justify-content-center'>
 
             <div className='row align-items-center justify-content-between'>
                 <div className='col-12 col-md-6 mb-4 mb-md-0'>
