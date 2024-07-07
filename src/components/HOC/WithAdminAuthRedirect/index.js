@@ -8,7 +8,7 @@ import Forbidden from "@/components/403";
 import { collection, getDocs, limit, query, where } from "firebase/firestore";
 import db from "@/utils/firebase/firestore";
 
-function withAuthRedirect(WrappedComponent) {
+function WithAdminAuthRedirect(WrappedComponent) {
   return (props) => {
     const [user, setUser] = useState(null);
     const [userRole, setUserRoleInfo] = useState(null);
@@ -53,10 +53,10 @@ function withAuthRedirect(WrappedComponent) {
     }, [auth]);
 
     if (loading) {
-      return <Loading />; // or some skeleton screen
+      return <Loading />;
     }
 
-    if (!user) {
+    if (!user || userRole.role !== "SuperAdmin") {
       return <Forbidden />;
     }
 
@@ -64,4 +64,4 @@ function withAuthRedirect(WrappedComponent) {
   };
 }
 
-export default withAuthRedirect;
+export default WithAdminAuthRedirect;
