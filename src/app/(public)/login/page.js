@@ -46,7 +46,7 @@ const LoginPage = () => {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
             console.log('User details:', userCredential.user);
-            router.push('/');
+            router.push('/profile');
         } catch (error) {
             console.error('Error logging in:', error.message);
             setErrors({ email: 'Invalid email or password', password: '' });
