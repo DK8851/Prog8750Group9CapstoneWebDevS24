@@ -43,7 +43,7 @@ const Header = ({ currActivePath, currUser, userRole }) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            {navLinks.map((item, index) => (
+            {userRole?.role !== "SuperAdmin" && navLinks.map((item, index) => (
               <Nav.Link
                 key={index}
                 as={Link}
