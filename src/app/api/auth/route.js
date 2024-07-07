@@ -1,7 +1,7 @@
 import Utils from "@/utils";
 import admin from "@/utils/firebase/firebase-admin";
 import db from "@/utils/firebase/firestore";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
 export async function POST(req, res) {
   try {
@@ -9,10 +9,13 @@ export async function POST(req, res) {
 
     await admin.auth().setCustomUserClaims(uid, { role });
 
-    await addDoc(collection(db, "users"), {
+    // Reference to the document with the specific ID
+    const docRef = doc(db, "users", uid);
+
+    await setDoc(docRef, {
       uid,
       role,
-      displayName
+      displayName,
     });
 
     return Utils.sendSuccess({ message: "User role set successfully" });

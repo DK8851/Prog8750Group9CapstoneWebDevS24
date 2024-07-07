@@ -13,7 +13,6 @@ import WithAdminAuthRedirect from "@/components/HOC/WithAdminAuthRedirect";
 
 function ProtectedLayout({ children, user, userRole }) {
   const pathname = usePathname();
-  console.log("admin side :: ", userRole);
 
   return (
     <div>
@@ -26,7 +25,7 @@ function ProtectedLayout({ children, user, userRole }) {
       <main>{children}</main>
       <Footer
         currActivePath={pathname}
-        fixed={!["/profile", "/verify-doc"].includes(pathname)}
+        fixed={!["/profile", "/verify-doc", "/verification-req"].includes(pathname)}
       />
     </div>
   );
