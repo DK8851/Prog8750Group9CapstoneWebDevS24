@@ -9,11 +9,11 @@ import "/styles/css/globals.css";
 import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import withAuthRedirect from "@/components/HOC/WithAuthRedirect";
+import WithAdminAuthRedirect from "@/components/HOC/WithAdminAuthRedirect";
 
 function ProtectedLayout({ children, user, userRole }) {
   const pathname = usePathname();
-  console.log("userRole :: ", userRole);
+  console.log("admin side :: ", userRole);
 
   return (
     <div>
@@ -32,4 +32,4 @@ function ProtectedLayout({ children, user, userRole }) {
   );
 }
 
-export default withAuthRedirect(ProtectedLayout);
+export default WithAdminAuthRedirect(ProtectedLayout);
