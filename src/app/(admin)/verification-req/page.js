@@ -71,12 +71,20 @@ const AdminVerifyDocPage = () => {
     }
   };
 
-  const updateDocStatus = async (docId, updates) => {
+  const updateDocStatus = async (docId, userId, updates) => {
     const updateLoading = toast.loading("Updating document status...");
 
     try {
       const docRef = doc(db, "docs", docId);
       await updateDoc(docRef, updates);
+
+      const userEmail = await fetchUserEmail(userId);
+
+      await sendEmail({
+        to: userEmail, // actual recipient's email
+        docId,
+        status: updates.isApproved ? "APPROVED" : "REJECTED",
+      });
 
       toast.update(updateLoading, {
         render: "Document status updated successfully",
@@ -98,16 +106,56 @@ const AdminVerifyDocPage = () => {
     }
   };
 
-  const handleApprove = (docId) => {
-    updateDocStatus(docId, {
+  const fetchUserEmail = async (userId) => {
+    try {
+      const response = await fetch("/api/authById", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch user email");
+      }
+
+      const data = await response.json();
+      return data?.response?.email;
+    } catch (error) {
+      // setError("Failed to fetch user email");
+      console.error(error);
+    }
+  };
+
+  const sendEmail = async ({ to, docId, status }) => {
+    try {
+      const response = await fetch("/api/mail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ to, docId, status }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send email");
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+    }
+  };
+
+  const handleApprove = (docId, userId) => {
+    updateDocStatus(docId, userId, {
       isApproved: true,
       isPending: false,
       madeDecision: true,
     });
   };
 
-  const handleReject = (docId) => {
-    updateDocStatus(docId, {
+  const handleReject = (docId, userId) => {
+    updateDocStatus(docId, userId, {
       isApproved: false,
       isPending: false,
       madeDecision: true,
@@ -180,14 +228,14 @@ const AdminVerifyDocPage = () => {
                   <td>
                     <Button
                       variant="success"
-                      onClick={() => handleApprove(doc.id)}
+                      onClick={() => handleApprove(doc.id, doc.userId)}
                       disabled={doc.madeDecision}
                     >
                       Approve
                     </Button>
                     <Button
                       variant="danger"
-                      onClick={() => handleReject(doc.id)}
+                      onClick={() => handleReject(doc.id, doc.userId)}
                       disabled={doc.madeDecision}
                       className="ms-2"
                     >
