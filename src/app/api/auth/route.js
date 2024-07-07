@@ -1,7 +1,7 @@
-import Utils from '@/utils';
-import admin from '@/utils/firebase/firebase-admin';
-import db from '@/utils/firebase/firestore';
-import { addDoc, collection } from 'firebase/firestore';
+import Utils from "@/utils";
+import admin from "@/utils/firebase/firebase-admin";
+import db from "@/utils/firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 
 export async function POST(req, res) {
   try {
@@ -15,9 +15,9 @@ export async function POST(req, res) {
       displayName
     });
 
-    return Utils.sendSuccess({ message: 'User role set successfully' });
+    return Utils.sendSuccess({ message: "User role set successfully" });
   } catch (exception) {
-    console.error('Error setting user role:', exception);
-    return Utils.sendError()(exception)
+    console.error("Error setting user role:", exception);
+    return Utils.sendError()(exception);
   }
 }
