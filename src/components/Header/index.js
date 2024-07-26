@@ -77,6 +77,16 @@ const Header = ({ currActivePath, currUser, userRole }) => {
                 {userRole?.role == "SuperAdmin" && (
                   <Nav.Link
                     as={Link}
+                    href="/users"
+                    className={currActivePath === "/users" ? "active" : ""}
+                  >
+                    Users
+                  </Nav.Link>
+                )}
+
+                {userRole?.role == "SuperAdmin" && (
+                  <Nav.Link
+                    as={Link}
                     href="/verification-req"
                     className={
                       currActivePath === "/verification-req" ? "active" : ""
