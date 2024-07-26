@@ -43,16 +43,17 @@ const Header = ({ currActivePath, currUser, userRole }) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            {userRole?.role !== "SuperAdmin" && navLinks.map((item, index) => (
-              <Nav.Link
-                key={index}
-                as={Link}
-                href={item.path}
-                className={currActivePath === item.path ? "active" : ""}
-              >
-                {item.text}
-              </Nav.Link>
-            ))}
+            {userRole?.role !== "SuperAdmin" &&
+              navLinks.map((item, index) => (
+                <Nav.Link
+                  key={index}
+                  as={Link}
+                  href={item.path}
+                  className={currActivePath === item.path ? "active" : ""}
+                >
+                  {item.text}
+                </Nav.Link>
+              ))}
             {currUser ? (
               <>
                 <Nav.Link
@@ -82,6 +83,18 @@ const Header = ({ currActivePath, currUser, userRole }) => {
                     }
                   >
                     Verification Req
+                  </Nav.Link>
+                )}
+
+                {userRole?.role == "SuperAdmin" && (
+                  <Nav.Link
+                    as={Link}
+                    href="/contact-req"
+                    className={
+                      currActivePath === "/contact-req" ? "active" : ""
+                    }
+                  >
+                    Contact Req
                   </Nav.Link>
                 )}
 

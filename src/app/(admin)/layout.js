@@ -25,7 +25,7 @@ function ProtectedLayout({ children, user, userRole }) {
       <main>{children}</main>
       <Footer
         currActivePath={pathname}
-        fixed={!["/profile", "/verify-doc", "/verification-req"].includes(pathname)}
+        fixed={!["/profile", "/verify-doc", "/verification-req", "/contact-req"].includes(pathname)}
       />
     </div>
   );

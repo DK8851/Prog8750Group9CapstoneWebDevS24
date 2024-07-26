@@ -3,6 +3,7 @@ export const getDocumentStatusUpdateTemplate = ({
   status,
   updatedBy,
   date,
+  message = "The status of your document has been updated. Here are the details",
 }) => `
 <!DOCTYPE html>
 <html lang="en">
@@ -106,7 +107,7 @@ export const getDocumentStatusUpdateTemplate = ({
         <tr>
             <td class="email-body">
                 <p>Hello,</p>
-                <p>The status of your document has been updated. Here are the details:</p>
+                <p>${message}:</p>
                 <ul>
                     <li><strong>Document ID:</strong> ${docId}</li>
                     <li><strong>New Status:</strong> ${status}</li>

@@ -62,36 +62,35 @@ const ContactUsPage = () => {
     const { name, email, subject, description } = formData;
     const contactFormLoading = toast.loading("Sending...");
 
-    // try {
-    //   const response = await fetch("/api/contact", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ name, email, subject, description }),
-    //   });
+    try {
+      const response = await fetch("/api/contactus", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, subject, description }),
+      });
 
-    //   if (response.ok) {
-    //     toast.update(contactFormLoading, {
-    //       render: "Message Sent Successfully!",
-    //       type: "success",
-    //       isLoading: false,
-    //       autoClose: true,
-    //     });
-    //     setFormData({ name: "", email: "", subject: "", description: "" });
-    //     router.push("/"); // Redirect after successful submission
-    //   } else {
-    //     throw new Error("Failed to send message");
-    //   }
-    // } catch (error) {
-    //   console.error("Error sending contact form:", error);
-    //   toast.update(contactFormLoading, {
-    //     render: "Failed to Send Message!",
-    //     type: "error",
-    //     isLoading: false,
-    //     autoClose: true,
-    //   });
-    // }
+      if (response.ok) {
+        setFormData({ name: "", email: "", subject: "", description: "" });
+        toast.update(contactFormLoading, {
+          render: "Message Sent Successfully!",
+          type: "success",
+          isLoading: false,
+          autoClose: true,
+        });
+      } else {
+        throw new Error("Failed to send message");
+      }
+    } catch (error) {
+      console.error("Error sending contact form:", error);
+      toast.update(contactFormLoading, {
+        render: "Failed to Send Message!",
+        type: "error",
+        isLoading: false,
+        autoClose: true,
+      });
+    }
   };
 
   return (
@@ -166,7 +165,11 @@ const ContactUsPage = () => {
           </Form.Group>
 
           <div className="d-flex justify-content-center align-items-center">
-            <RoundButton text="Submit Now" size="md" newclass="text-uppercase" />
+            <RoundButton
+              text="Submit Now"
+              size="md"
+              newclass="text-uppercase"
+            />
           </div>
           <div className="d-flex justify-content-center align-items-center mt-2">
             <Link href="/" className="fw-semibold text-body-secondary">

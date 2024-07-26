@@ -4,13 +4,14 @@ import { getDocumentStatusUpdateTemplate } from "@/utils/email/template";
 
 export async function POST(req, res) {
   try {
-    const { docId, status, to } = await req.json();
+    const { docId, status, to, message } = await req.json();
 
     const emailContent = getDocumentStatusUpdateTemplate({
       docId,
       status,
       updatedBy: "RapidAid Admin",
       date: new Date().toLocaleString(),
+      message,
     });
 
     // Send the email
