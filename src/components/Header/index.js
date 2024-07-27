@@ -108,6 +108,16 @@ const Header = ({ currActivePath, currUser, userRole }) => {
                   </Nav.Link>
                 )}
 
+                {userRole?.role !== "SuperAdmin" && (
+                  <Nav.Link
+                    as={Link}
+                    href="/emg"
+                    className={currActivePath === "/emg" ? "active" : ""}
+                  >
+                    Add Alert
+                  </Nav.Link>
+                )}
+
                 <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
               </>
             ) : (
