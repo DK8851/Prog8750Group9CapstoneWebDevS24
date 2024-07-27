@@ -27,7 +27,7 @@ function ProtectedLayout({ children, user, userRole }) {
       <main>{React.cloneElement(children, { userRole })}</main>
       <Footer
         currActivePath={pathname}
-        fixed={!["/profile", "/verify-doc", "/emg"].includes(pathname)}
+        fixed={!["/profile", "/verify-doc", "/emg", "/emgs"].includes(pathname)}
       />
     </div>
   );
