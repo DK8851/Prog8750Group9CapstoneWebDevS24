@@ -1,0 +1,19 @@
+.card :hover {
+  background-color: #fffaf1;
+  cursor: pointer;
+  border-radius: 3%;
+  -webkit-border-radius: 3%;
+  -moz-border-radius: 3%;
+  -ms-border-radius: 3%;
+  -o-border-radius: 3%;
+}
+
+.button-container {
+  background: antiquewhite;
+  padding: 0rem 1rem;
+  border-radius: 5%;
+  -webkit-border-radius: 5%;
+  -moz-border-radius: 5%;
+  -ms-border-radius: 5%;
+  -o-border-radius: 5%;
+}
