@@ -10,6 +10,7 @@ import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import withAuthRedirect from "@/components/HOC/WithAuthRedirect";
+import React from "react";
 
 function ProtectedLayout({ children, user, userRole }) {
   const pathname = usePathname();
@@ -23,10 +24,10 @@ function ProtectedLayout({ children, user, userRole }) {
         currUser={user}
         userRole={userRole}
       />
-      <main>{children}</main>
+      <main>{React.cloneElement(children, { userRole })}</main>
       <Footer
         currActivePath={pathname}
-        fixed={!["/profile", "/verify-doc"].includes(pathname)}
+        fixed={!["/profile", "/verify-doc", "/emg"].includes(pathname)}
       />
     </div>
   );
