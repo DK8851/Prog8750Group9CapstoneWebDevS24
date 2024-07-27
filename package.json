@@ -15,6 +15,7 @@
   "dependencies": {
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
+    "crisp-sdk-web": "^1.0.25",
     "firebase": "^10.12.1",
     "firebase-admin": "^12.1.1",
     "next": "14.2.3",
