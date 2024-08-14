@@ -16,8 +16,8 @@ const Fugaz_One_md = Fugaz_One({
 
 const navLinks = [
   { path: "/", text: "Home" },
-  { path: "/about", text: "About" },
-  { path: "/contact", text: "Contact" },
+  // { path: "/about", text: "About" },
+  // { path: "/contact", text: "Contact" },
 ];
 
 const Header = ({ currActivePath, currUser, userRole }) => {
@@ -132,6 +132,20 @@ const Header = ({ currActivePath, currUser, userRole }) => {
               </>
             ) : (
               <>
+                <Nav.Link
+                  as={Link}
+                  href="/about"
+                  className={currActivePath === "/about" ? "active" : ""}
+                >
+                  About
+                </Nav.Link>
+                <Nav.Link
+                  as={Link}
+                  href="/contact"
+                  className={currActivePath === "/contact" ? "active" : ""}
+                >
+                  Contact
+                </Nav.Link>
                 <Nav.Link
                   as={Link}
                   href="/login"
