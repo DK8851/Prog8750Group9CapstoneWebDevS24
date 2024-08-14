@@ -10,6 +10,7 @@ import {
   increment,
   getDoc,
   deleteField,
+  deleteDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/utils/firebase/firebase";
@@ -27,7 +28,7 @@ const debounce = (func, wait) => {
   };
 };
 
-const RecordList = () => {
+const RecordList = ({ deleteAccess }) => {
   const [records, setRecords] = useState([]);
   const [users, setUsers] = useState({});
 
@@ -62,6 +63,15 @@ const RecordList = () => {
     // Clean up subscription on unmount
     return () => unsubscribe();
   }, []);
+
+  const handleDelete = async (recordId) => {
+    try {
+      await deleteDoc(doc(db, "emergency", recordId));
+      console.log(`Record with id ${recordId} deleted`);
+    } catch (error) {
+      console.error("Error deleting record:", error);
+    }
+  };
 
   const handleUpvote = async (recordId) => {
     const user = auth.currentUser;
@@ -104,6 +114,8 @@ const RecordList = () => {
           <RecordCard
             key={record.id}
             record={record}
+            showDeleteButton={deleteAccess}
+            onDelete={() => handleDelete(record.id)}
             onUpvote={handleUpvote}
             user={users[record.uid]}
           />

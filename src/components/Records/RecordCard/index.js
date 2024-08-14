@@ -1,16 +1,25 @@
 import React from "react";
 import { Card, Button, Col, Row } from "react-bootstrap";
-import { BiCaretUp, BiMap } from "react-icons/bi"; // Import the upvote icon
+import { BiCaretUp, BiMap, BiTrash } from "react-icons/bi"; // Import the upvote icon
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/utils/firebase/firebase";
 import "./index.css";
 
 const auth = getAuth(firebase_app);
 
-const RecordCard = ({ record, user, onUpvote }) => {
+const RecordCard = ({ record, user, onUpvote, showDeleteButton, onDelete }) => {
   const handleUpvote = () => {
     onUpvote(record.id);
   };
+
+  const handleDelete = () => {
+    if (window.confirm("Are you sure you want to delete this record?")) {
+      onDelete(record.id);
+    }
+  };
+
+  const date = new Date(record.createdAt.seconds * 1000);
+  const formattedDate = date.toLocaleString();
 
   return (
     <Col sm={12} className="mb-4">
@@ -21,7 +30,8 @@ const RecordCard = ({ record, user, onUpvote }) => {
               <Card.Title>{record.title}</Card.Title>
               <Card.Text>{record.desc}</Card.Text>
               <Card.Subtitle className="mb-2 text-muted">
-                By: {user ? `${user.displayName}` : "Admin"}
+                By: {user ? `${user.displayName}` : "Admin"} <br />
+                Date: {formattedDate}
               </Card.Subtitle>
               <Card.Text className="d-flex align-items-center">
                 <strong>
@@ -50,6 +60,15 @@ const RecordCard = ({ record, user, onUpvote }) => {
                   <BiCaretUp size="2em" />
                 </Button>
                 <div className="text-muted">{record.upvoteCount || 0}</div>
+                {showDeleteButton && (
+                  <Button
+                    variant="link"
+                    className="text-danger mt-2"
+                    onClick={handleDelete}
+                  >
+                    <BiTrash size="1.5em" />
+                  </Button>
+                )}
               </div>
             </Col>
           </Row>
