@@ -135,7 +135,7 @@ const EmgPage = () => {
             </Form.Control.Feedback>
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicDescription">
+          {/* <Form.Group className="mb-3" controlId="formBasicDescription">
             <Form.Label>Description</Form.Label>
             <Form.Control
               className="rounded-pill"
@@ -149,14 +149,14 @@ const EmgPage = () => {
             <Form.Control.Feedback type="invalid">
               {errors.desc}
             </Form.Control.Feedback>
-          </Form.Group>
+          </Form.Group> */}
 
           <Form.Group className="mb-3" controlId="formBasicLocation">
             <Form.Label>Location</Form.Label>
             <Form.Control
               className="rounded-pill"
               type="url"
-              placeholder="Enter Location"
+              placeholder="Enter Location (e.g., https://map.com/jioenjzajs)"
               name="location"
               value={formData.location}
               onChange={handleChange}
@@ -164,6 +164,23 @@ const EmgPage = () => {
             />
             <Form.Control.Feedback type="invalid">
               {errors.location}
+            </Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formDescription">
+            <Form.Label>Description</Form.Label>
+            <Form.Control
+              as="textarea"
+              className="rounded"
+              rows={4}
+              placeholder="Enter Description"
+              name="desc"
+              value={formData.desc}
+              onChange={handleChange}
+              isInvalid={!!errors.desc}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.desc}
             </Form.Control.Feedback>
           </Form.Group>
 
