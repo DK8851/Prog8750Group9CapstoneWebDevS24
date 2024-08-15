@@ -15,7 +15,7 @@ import {
 
 import BG from "@/components/Bg";
 import firebase_app from "@/utils/firebase/firebase";
-import { Container, Table, Button } from "react-bootstrap";
+import { Container, Table, Button, Pagination } from "react-bootstrap";
 
 const auth = getAuth(firebase_app);
 const db = getFirestore(firebase_app);
@@ -23,6 +23,8 @@ const db = getFirestore(firebase_app);
 const AdminVerifyDocPage = () => {
   const router = useRouter();
   const [docs, setDocs] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const docsPerPage = 5;
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
@@ -43,7 +45,6 @@ const AdminVerifyDocPage = () => {
         ...doc.data(),
       }));
 
-      console.log(docsData);
       setDocs(docsData);
     } catch (error) {
       console.error("Error fetching documents: ", error);
@@ -84,7 +85,8 @@ const AdminVerifyDocPage = () => {
   };
 
   const sendEmail = async ({ to, docId, status }) => {
-    const message = "The status of your request has been updated. Here are the details:"
+    const message =
+      "The status of your request has been updated. Here are the details:";
     try {
       const response = await fetch("/api/mail", {
         method: "POST",
@@ -134,6 +136,16 @@ const AdminVerifyDocPage = () => {
     }
   };
 
+  const indexOfLastDoc = currentPage * docsPerPage;
+  const indexOfFirstDoc = indexOfLastDoc - docsPerPage;
+  const currentDocs = docs.slice(indexOfFirstDoc, indexOfLastDoc);
+
+  const totalPages = Math.ceil(docs.length / docsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <div>
       <BG />
@@ -152,9 +164,9 @@ const AdminVerifyDocPage = () => {
               </tr>
             </thead>
             <tbody>
-              {docs.map((doc, index) => (
+              {currentDocs.map((doc, index) => (
                 <tr key={doc.id}>
-                  <td>{index + 1}</td>
+                  <td>{indexOfFirstDoc + index + 1}</td>
                   <td>{doc.name}</td>
                   <td>{doc.subject}</td>
                   <td>{doc.description}</td>
@@ -185,6 +197,17 @@ const AdminVerifyDocPage = () => {
               ))}
             </tbody>
           </Table>
+          <Pagination className="justify-content-center">
+            {[...Array(totalPages)].map((_, pageIndex) => (
+              <Pagination.Item
+                key={pageIndex + 1}
+                active={pageIndex + 1 === currentPage}
+                onClick={() => handlePageChange(pageIndex + 1)}
+              >
+                {pageIndex + 1}
+              </Pagination.Item>
+            ))}
+          </Pagination>
         </Container>
       </div>
     </div>

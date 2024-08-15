@@ -20,7 +20,7 @@ import { getStorage, ref, deleteObject } from "firebase/storage";
 
 import BG from "@/components/Bg";
 import firebase_app from "@/utils/firebase/firebase";
-import { Container, Table, Button } from "react-bootstrap";
+import { Container, Table, Button, Pagination } from "react-bootstrap";
 
 const auth = getAuth(firebase_app);
 const db = getFirestore(firebase_app);
@@ -29,6 +29,8 @@ const storage = getStorage(firebase_app);
 const AdminVerifyDocPage = () => {
   const router = useRouter();
   const [docs, setDocs] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const docsPerPage = 5; // Number of documents to display per page
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
@@ -123,7 +125,6 @@ const AdminVerifyDocPage = () => {
       const data = await response.json();
       return data?.response?.email;
     } catch (error) {
-      // setError("Failed to fetch user email");
       console.error(error);
     }
   };
@@ -191,6 +192,17 @@ const AdminVerifyDocPage = () => {
     }
   };
 
+  // Pagination logic
+  const indexOfLastDoc = currentPage * docsPerPage;
+  const indexOfFirstDoc = indexOfLastDoc - docsPerPage;
+  const currentDocs = docs.slice(indexOfFirstDoc, indexOfLastDoc);
+
+  const totalPages = Math.ceil(docs.length / docsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <div>
       <BG />
@@ -207,9 +219,9 @@ const AdminVerifyDocPage = () => {
               </tr>
             </thead>
             <tbody>
-              {docs.map((doc, index) => (
+              {currentDocs.map((doc, index) => (
                 <tr key={doc.id}>
-                  <td>{index + 1}</td>
+                  <td>{indexOfFirstDoc + index + 1}</td>
                   <td>
                     <img
                       src={doc.docUrls[0]} // Assuming each doc entry has one URL
@@ -253,6 +265,17 @@ const AdminVerifyDocPage = () => {
               ))}
             </tbody>
           </Table>
+          <Pagination className="justify-content-center">
+            {[...Array(totalPages)].map((_, pageIndex) => (
+              <Pagination.Item
+                key={pageIndex + 1}
+                active={pageIndex + 1 === currentPage}
+                onClick={() => handlePageChange(pageIndex + 1)}
+              >
+                {pageIndex + 1}
+              </Pagination.Item>
+            ))}
+          </Pagination>
         </Container>
       </div>
     </div>
