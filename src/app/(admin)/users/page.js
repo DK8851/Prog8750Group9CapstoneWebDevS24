@@ -22,6 +22,7 @@ import {
 import BG from "@/components/Bg";
 import firebase_app from "@/utils/firebase/firebase";
 import { Container, Table, Button } from "react-bootstrap";
+import { FaCheckCircle, FaBan, FaTrash } from "react-icons/fa";
 
 const auth = getAuth(firebase_app);
 const db = getFirestore(firebase_app);
@@ -205,21 +206,21 @@ const AdminVerifyDocPage = () => {
                       variant="success"
                       onClick={() => handleUser(doc.id, doc.uid, false)}
                     >
-                      Active
+                      <FaCheckCircle />
                     </Button>
                     <Button
                       variant="danger"
                       onClick={() => handleUser(doc.id, doc.uid, true)}
                       className="ms-2 text-white"
                     >
-                      Deactive
+                      <FaBan />
                     </Button>
                     <Button
                       variant="secondary"
                       onClick={() => deleteDocument(doc.id, doc.uid)}
                       className="ms-2"
                     >
-                      Delete
+                      <FaTrash />
                     </Button>
                   </td>
                 </tr>

@@ -13,6 +13,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 
+import { FaCheck, FaTimes, FaTrash } from "react-icons/fa";
 import BG from "@/components/Bg";
 import firebase_app from "@/utils/firebase/firebase";
 import { Container, Table, Button, Pagination } from "react-bootstrap";
@@ -176,21 +177,21 @@ const AdminVerifyDocPage = () => {
                       variant="success"
                       onClick={() => handleReqCheck(doc.id, doc.email, true)}
                     >
-                      Checked
+                      <FaCheck />
                     </Button>
                     <Button
                       variant="danger"
                       onClick={() => handleReqCheck(doc.id, doc.email, false)}
                       className="ms-2 text-white"
                     >
-                      UnChecked
+                      <FaTimes />
                     </Button>
                     <Button
                       variant="secondary"
                       onClick={() => deleteDocument(doc.id)}
                       className="ms-2"
                     >
-                      Delete
+                      <FaTrash />
                     </Button>
                   </td>
                 </tr>

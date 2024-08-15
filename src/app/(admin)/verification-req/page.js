@@ -17,6 +17,7 @@ import {
 } from "firebase/firestore";
 
 import { getStorage, ref, deleteObject } from "firebase/storage";
+import { FaCheck, FaTimes, FaTrash } from "react-icons/fa";
 
 import BG from "@/components/Bg";
 import firebase_app from "@/utils/firebase/firebase";
@@ -243,7 +244,7 @@ const AdminVerifyDocPage = () => {
                       onClick={() => handleApprove(doc.id, doc.userId)}
                       disabled={doc.madeDecision}
                     >
-                      Approve
+                      <FaCheck />
                     </Button>
                     <Button
                       variant="danger"
@@ -251,14 +252,14 @@ const AdminVerifyDocPage = () => {
                       disabled={doc.madeDecision}
                       className="ms-2"
                     >
-                      Reject
+                      <FaTimes />
                     </Button>
                     <Button
                       variant="secondary"
                       onClick={() => deleteDocument(doc.id, doc.docUrls[0])}
                       className="ms-2"
                     >
-                      Delete
+                      <FaTrash />
                     </Button>
                   </td>
                 </tr>
