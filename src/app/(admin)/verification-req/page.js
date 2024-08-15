@@ -224,12 +224,18 @@ const AdminVerifyDocPage = () => {
                 <tr key={doc.id}>
                   <td>{indexOfFirstDoc + index + 1}</td>
                   <td>
-                    <img
-                      src={doc.docUrls[0]} // Assuming each doc entry has one URL
-                      alt={`Document ${index + 1}`}
-                      className="img-fluid"
-                      style={{ maxWidth: "100px", maxHeight: "100px" }}
-                    />
+                    <a
+                      href={doc.docUrls[0]}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img
+                        src={doc.docUrls[0]} // Assuming each doc entry has one URL
+                        alt={`Document ${index + 1}`}
+                        className="img-fluid"
+                        style={{ maxWidth: "100px", maxHeight: "100px" }}
+                      />
+                    </a>
                   </td>
                   <td>
                     {doc.isPending
