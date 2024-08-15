@@ -11,6 +11,8 @@ import {
   getDoc,
   deleteField,
   deleteDoc,
+  query,
+  orderBy,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/utils/firebase/firebase";
@@ -33,32 +35,34 @@ const RecordList = ({ deleteAccess }) => {
   const [users, setUsers] = useState({});
 
   useEffect(() => {
-    // Real-time listener for emergency records
-    const unsubscribe = onSnapshot(
+    const recordsQuery = query(
       collection(db, "emergency"),
-      async (snapshot) => {
-        const fetchedRecords = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setRecords(fetchedRecords);
-
-        // Fetch user data for each unique uid
-        const uniqueUids = [
-          ...new Set(fetchedRecords.map((record) => record.uid)),
-        ];
-        const userDocs = await Promise.all(
-          uniqueUids.map((uid) => getDoc(doc(db, "users", uid)))
-        );
-        const fetchedUsers = {};
-        userDocs.forEach((userDoc) => {
-          if (userDoc.exists()) {
-            fetchedUsers[userDoc.id] = userDoc.data();
-          }
-        });
-        setUsers(fetchedUsers);
-      }
+      orderBy("createdAt", "desc")
     );
+
+    // Real-time listener for emergency records
+    const unsubscribe = onSnapshot(recordsQuery, async (snapshot) => {
+      const fetchedRecords = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setRecords(fetchedRecords);
+
+      // Fetch user data for each unique uid
+      const uniqueUids = [
+        ...new Set(fetchedRecords.map((record) => record.uid)),
+      ];
+      const userDocs = await Promise.all(
+        uniqueUids.map((uid) => getDoc(doc(db, "users", uid)))
+      );
+      const fetchedUsers = {};
+      userDocs.forEach((userDoc) => {
+        if (userDoc.exists()) {
+          fetchedUsers[userDoc.id] = userDoc.data();
+        }
+      });
+      setUsers(fetchedUsers);
+    });
 
     // Clean up subscription on unmount
     return () => unsubscribe();
