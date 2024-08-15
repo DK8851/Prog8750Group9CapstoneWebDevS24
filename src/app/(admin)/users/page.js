@@ -13,6 +13,10 @@ import {
   deleteDoc,
   query,
   where,
+  limit,
+  startAt,
+  orderBy,
+  startAfter,
 } from "firebase/firestore";
 
 import BG from "@/components/Bg";
@@ -25,10 +29,16 @@ const db = getFirestore(firebase_app);
 const AdminVerifyDocPage = () => {
   const router = useRouter();
   const [docs, setDocs] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize] = useState(5); // 5 items per page
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
+        // Reset pagination when a new session starts
+        setCurrentPage(1);
+        setDocs([]);
         fetchAllDocs();
       } else {
         router.push("/login");
@@ -36,22 +46,49 @@ const AdminVerifyDocPage = () => {
     });
   }, [router]);
 
-  const fetchAllDocs = async () => {
+  const fetchAllDocs = async (page = 1) => {
     try {
       const docsRef = collection(db, "users");
-      const querySnapshot = await getDocs(docsRef);
-      let docsData = querySnapshot.docs.map((doc) => ({
+
+      // Apply ordering by a field (e.g., creation time) to paginate efficiently
+      const orderedQuery = query(
+        docsRef,
+        where("role", "!=", "SuperAdmin"),
+        orderBy("displayName"), // Replace "creationTime" with the correct field
+        limit(pageSize)
+      );
+
+      // Adjust the query based on the page number
+      let paginatedQuery = orderedQuery;
+
+      if (page > 1) {
+        const previousPageSnapshot = await getDocs(orderedQuery);
+        const lastVisible =
+          previousPageSnapshot.docs[previousPageSnapshot.docs.length - 1];
+        paginatedQuery = query(orderedQuery, startAfter(lastVisible));
+      }
+
+      const paginatedSnapshot = await getDocs(paginatedQuery);
+
+      const fetchedDocs = paginatedSnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
 
-      console.log(docsData);
+      setDocs(fetchedDocs);
 
-      docsData = docsData.filter((d) => d.role !== "SuperAdmin");
-      setDocs(docsData);
+      // Calculate total documents for pagination (this could be done separately for efficiency)
+      const totalDocsSnapshot = await getDocs(docsRef);
+      const totalDocuments = totalDocsSnapshot.size;
+      setTotalPages(Math.ceil(totalDocuments / pageSize));
     } catch (error) {
       console.error("Error fetching documents: ", error);
     }
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    fetchAllDocs(pageNumber);
   };
 
   const updateDocStatus = async (id, docId, updates) => {
@@ -159,7 +196,7 @@ const AdminVerifyDocPage = () => {
             <tbody>
               {docs.map((doc, index) => (
                 <tr key={doc.id}>
-                  <td>{index + 1}</td>
+                  <td>{index + 1 + (currentPage - 1) * pageSize}</td>
                   <td>{doc.displayName}</td>
                   <td>{doc.role}</td>
                   <td>{doc.isDisable ? "Disabled" : "Active"}</td>
@@ -189,6 +226,29 @@ const AdminVerifyDocPage = () => {
               ))}
             </tbody>
           </Table>
+
+          {/* Pagination Controls */}
+          <div className="d-flex justify-content-center">
+            <nav>
+              <ul className="pagination">
+                {[...Array(totalPages)].map((_, index) => (
+                  <li
+                    key={index}
+                    className={`page-item ${
+                      currentPage === index + 1 ? "active" : ""
+                    }`}
+                  >
+                    <Button
+                      className="page-link"
+                      onClick={() => handlePageChange(index + 1)}
+                    >
+                      {index + 1}
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
         </Container>
       </div>
     </div>

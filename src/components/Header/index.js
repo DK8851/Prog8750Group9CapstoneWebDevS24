@@ -108,6 +108,16 @@ const Header = ({ currActivePath, currUser, userRole }) => {
                   </Nav.Link>
                 )}
 
+                {userRole?.role == "SuperAdmin" && (
+                  <Nav.Link
+                    as={Link}
+                    href="/manage-emgs"
+                    className={currActivePath === "/manage-emgs" ? "active" : ""}
+                  >
+                    Manage Alerts
+                  </Nav.Link>
+                )}
+
                 {userRole?.role !== "SuperAdmin" && (
                   <Nav.Link
                     as={Link}
